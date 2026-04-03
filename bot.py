@@ -1,6 +1,5 @@
 import logging
 import os
-import asyncio
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
     Application, CommandHandler, MessageHandler,
@@ -8,7 +7,7 @@ from telegram.ext import (
 )
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8671119609:AAFKVAD8q6ArusJMbdxsjevwBj8lhZqweus")
-ADMIN_ID   = int(os.getenv("ADMIN_ID", "877070118"))
+ADMIN_ID = int(os.getenv("ADMIN_ID", "877070118"))
 
 TOUR, NAME, SOURCE, COMMENT = range(4)
 
@@ -111,7 +110,7 @@ async def cancel(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 
-async def main():
+def main():
     app = Application.builder().token(BOT_TOKEN).build()
     conv = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
@@ -125,8 +124,8 @@ async def main():
     )
     app.add_handler(conv)
     logger.info("Anima Sacra бот запущен ✦")
-    await app.run_polling()
+    app.run_polling(drop_pending_updates=True)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
